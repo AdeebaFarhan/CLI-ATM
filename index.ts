@@ -14,51 +14,50 @@ let pinAnswer = await inquirer.prompt([
 ]);
 if (pinAnswer.pin === myPinCode) {
   console.log("Correct pin code!!!");
-} else {
-  console.log("Incorrect PIN. Please try again.");
-}
 
-let operationAns = await inquirer.prompt([
-  {
-    name: "operation",
-    message: "please select one operation ",
-    type: "list",
-    choices: ["withdraw", "checkbalances", "fastCash"],
-  },
-]);
-console.log(operationAns);
-
-if (operationAns.operation === "withdraw") {
-  let amountAns = await inquirer.prompt([
+  let operationAns = await inquirer.prompt([
     {
-      name: "amount",
-      message: "enter your amount",
-      type: "number",
+      name: "operation",
+      message: "please select one operation ",
+      type: "list",
+      choices: ["withdraw", "checkbalances", "fastCash"],
     },
   ]);
+  console.log(operationAns);
 
-  if (amountAns.amount > myBalance) {
-    console.log("Insfficient balance");
-  } else {
-    myBalance -= amountAns.amount;
+  if (operationAns.operation === "withdraw") {
+    let amountAns = await inquirer.prompt([
+      {
+        name: "amount",
+        message: "enter your amount",
+        type: "number",
+      },
+    ]);
+
+    if (amountAns.amount > myBalance) {
+      console.log("Insfficient balance");
+    } else {
+      myBalance -= amountAns.amount;
       console.log(
         `Withdrawal of ${amountAns.amount} successful. Remaining balance: ${myBalance}`
-      
-    );
-  }
-} else if (operationAns.operation === "checkbalances") {
-  console.log(`Your current balance is: ${myBalance}`);
-} else if (operationAns.operation === "fastCash") {
-  let amount = 2000;
-  console.log(`Withdrawing $${amount} for Fast Cash...`);
-  if (amount > myBalance) {
-    console.log("Insuffiecient balance");
+      );
+    }
+  } else if (operationAns.operation === "checkbalances") {
+    console.log(`Your current balance is: ${myBalance}`);
+  } else if (operationAns.operation === "fastCash") {
+    let amount = 2000;
+    console.log(`Withdrawing $${amount} for Fast Cash...`);
+    if (amount > myBalance) {
+      console.log("Insuffiecient balance");
+    } else {
+      myBalance -= amount;
+      console.log(
+        `Fast Cash withdrawal successful. Remaining balance: $${myBalance}`
+      );
+    }
   } else {
-    myBalance -= amount;
-    console.log(
-      `Fast Cash withdrawal successful. Remaining balance: $${myBalance}`
-    );
+    console.log("Invalid operation selected.");
   }
 } else {
-  console.log("Invalid operation selected.");
+  console.log("Incorrect PIN. Please try again.");
 }
